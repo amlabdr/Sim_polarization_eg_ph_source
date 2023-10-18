@@ -1,0 +1,9 @@
+trange: 1e3    # large range for rough peak find in ns
+binwidth: 10  # binwidth for rough peak in ns
+offset: 0        # artificial data offset in ns
+resolution: 10   # resolution for final coincidences in ps
+coin_window:
+    radius: 4 # coincidence window radius in ns
+    accidental_offset: 20 # offset from peak to find accidentals in ns
+    peak: 6
+range: 100
