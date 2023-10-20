@@ -20,6 +20,10 @@ class Coincidences:
     def load_timestamps(self, alice_file, bob_file):
         self.Alice = self.read_timestamps_from_file(alice_file)
         self.Bob = self.read_timestamps_from_file(bob_file)
+        if len(self.Alice) <= len(self.Bob):
+            self.Bob = self.Bob[:len(self.Alice)]
+        else:
+            self.Alice = self.Alice[:len(self.Bob)]
 
     def read_timestamps_from_file(self, file_name):
         with open(file_name, 'r') as file:
@@ -80,9 +84,9 @@ class Coincidences:
         plt.xlabel('Time Differences (ps)')
         plt.ylabel('Counts')
         plt.title('Histogram of Time Differences')
-        x_min = -4000  # Set your minimum x-axis value here
-        x_max = 4000  # Set your maximum x-axis value here
-        plt.xlim(x_min, x_max)
+        #x_min = -6000  # Set your minimum x-axis value here
+        #x_max = 6000  # Set your maximum x-axis value here
+        #plt.xlim(x_min, x_max)
         plt.plot(edges[1:],histo)
         print(histo)
         print(edges)
@@ -104,7 +108,7 @@ class Coincidences:
         print("Total Singles (Bob):", self.totalSinglesBob)
         print("Coincidences Per Second:", self.coincidencesPerSecond)
         print("Accidentals Per Second:", self.accidentalsPerSecond)
-# Example usage:
+"""# Example usage:
 config_file = "config.yaml"
 alice_file = "coincidences_analyse/alice.txt"
 bob_file = "coincidences_analyse/bob.txt"
@@ -115,3 +119,4 @@ coincidence_analyzer.find_peak()
 coincidence_analyzer.calculate_coincidences_and_rates()
 coincidence_analyzer.print_values()
 coincidence_analyzer.plot_histogram()
+"""

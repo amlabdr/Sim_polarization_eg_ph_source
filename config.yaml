@@ -6,4 +6,4 @@ coin_window:
     radius: 4 # coincidence window radius in ns
     accidental_offset: 20 # offset from peak to find accidentals in ns
     peak: 6
-range: 100
+range: 1000
