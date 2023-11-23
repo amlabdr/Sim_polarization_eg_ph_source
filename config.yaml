@@ -1,9 +1,19 @@
+sync_rate: 1e7
 trange: 1e3    # large range for rough peak find in ns
 binwidth: 10  # binwidth for rough peak in ns
 offset: 0        # artificial data offset in ns
+samplesize: 2000  # samples from data to find rough peak
 resolution: 10   # resolution for final coincidences in ps
+peakoffset: 60000
 coin_window:
     radius: 4 # coincidence window radius in ns
     accidental_offset: 20 # offset from peak to find accidentals in ns
     peak: 6
-range: 1000
+
+int_time: 1 # in sec
+cal_int_time: 1
+filename: 'N103_WS_'
+directory: 'C:\\daq\\data\\Entanglement_distribution\\Fringes'
+range: 100
+offset: 0
+bins_100: 1000

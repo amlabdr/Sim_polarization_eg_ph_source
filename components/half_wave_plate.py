@@ -15,7 +15,6 @@ if TYPE_CHECKING:
 
 from sequence.kernel.entity import Entity
 
-
 class HalfWavePlate(Entity):
     """Class implementing a simple half wave plate.
 
@@ -26,7 +25,7 @@ class HalfWavePlate(Entity):
         fidelity (float): fraction of qubits not lost on the reflective surface
     """
 
-    def __init__(self, name, timeline, angle = 0, fidelity=1):
+    def __init__(self, name, timeline, angle = 0, fidelity=1,otherHWP=None):
         """Constructor for wave plate class.
 
         Args:
@@ -39,7 +38,8 @@ class HalfWavePlate(Entity):
         super().__init__(name, timeline)
         self.fidelity = fidelity
         self.angle = angle
-               
+        self.SET_2STATE = True
+        self.other = otherHWP
     
 
     def init(self):
@@ -67,7 +67,7 @@ class HalfWavePlate(Entity):
         """Method to get the angle with fast axis """
         return self.angle
 
-    def get(self, photon: "Photon", setstate =True):
+    def get(self, photon: "Photon"):
         #print("before HWP: ",photon.quantum_state.state)
         """Method to receive a photon for measurement.
 
@@ -80,11 +80,13 @@ class HalfWavePlate(Entity):
         assert photon.encoding_type["name"] == "polarization", "hwp should only be used with polarization."
         rng = self.get_generator()
 
-        if rng.random() < self.fidelity and setstate:
-            #state = tuple(np.dot(self.HWP_4d, state))  
+        if rng.random() < self.fidelity and self.SET_2STATE:
+            self.other.SET_2STATE = False
+            #state = tuple(np.dot(self.HWP_4d, state))
             state = tuple(self.HWP_4dM.dot(state))
             photon.set_state(state)
         #print("after HWP: ",photon.quantum_state.state)
+        self.SET_2STATE = True
         self._receivers[0].get(photon)
         
 

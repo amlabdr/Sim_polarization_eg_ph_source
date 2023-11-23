@@ -12,8 +12,6 @@ random.seed(0)
 class source_port(Entity):
     def __init__(self, name, timeline:Timeline,owner:Node):
         super().__init__(name, timeline)
-        self.name = name
-        self.timeline = timeline
         self.owner = owner
         self.add_receiver(owner)
     def init(self):
@@ -26,7 +24,6 @@ class source_port(Entity):
 class source_node(Node):
     def __init__(self, name: str, timeline: Timeline,eg_photons_number:int):
         super().__init__(name, timeline)
-        self.timeline = timeline
         FREQ, MEAN = 1e7, 0.1
         self.spdc = SPDCSource("spdc", self.timeline, frequency=FREQ, mean_photon_num=MEAN, encoding_type=polarization)
         self.ports = {}
@@ -45,8 +42,6 @@ class source_node(Node):
 class Receiver(Node):
     def __init__(self, name: str, timeline: Timeline):
         super().__init__(name, timeline)
-        self.name = name
-        self.timeline = timeline
         self.log = []
         self.photon_counter=0
 
@@ -60,21 +55,6 @@ class Receiver(Node):
             rate = 0
         return rate
 
-def test_combine_state(photon1,photon2):
-    state1 = photon1.quantum_state
-    state2 = photon2.quantum_state
-    try:
-        for i, coeff in enumerate(state1.state):
-            assert coeff == state2.state[i]
-        assert state1.entangled_states == state2.entangled_states
-        assert state1.entangled_states == [state1, state2]
-
-        # If all assertions pass, return True
-        return True
-
-    except AssertionError:
-        # If any assertion fails, return False
-        return False
 
 def save_logs(log_list,file_name):
     # Extract timestamps from the log list
